@@ -1,0 +1,17 @@
+baseURL = "https://Tobiuo1022.github.io/Tobiuo-Blog/"
+languageCode = "ja"
+title = "Tobiuo Blog"
+theme = "PaperMod"
+
+[params]
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+
+[menu]
+  [[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 10
