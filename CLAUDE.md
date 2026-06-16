@@ -8,48 +8,57 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 目的
 
-GitHub Pages を使ったシンプルな個人ブログの構築。Markdown で記事を書いて `main` ブランチに push すると、GitHub Actions が Hugo を実行して自動デプロイされる構成を目指している。
+GitHub Pages を使ったシンプルな個人ブログ。Markdown で記事を書いて `main` ブランチに push すると、GitHub Actions が Hugo を実行して自動デプロイされる。
 
 ## リポジトリ情報
 
 - GitHub: https://github.com/Tobiuo1022/Tobiuo-Blog
-- 公開 URL: https://Tobiuo1022.github.io/Tobiuo-Blog/
+- 公開 URL: https://tobiuo1022.github.io/Tobiuo-Blog/
 - ローカルパス: `/home/tobiuo/park/hugo`
 
 ## 技術的な決定事項
 
-- **Hugo テーマ**: PaperMod（git submodule で管理）
-- **Hugo の実行環境**: Docker コンテナ内のみ（ホストに Hugo をインストールしない）
-  - 使用イメージ: `hugomods/hugo:exts`（extended 版、SCSS 対応）
+- **Hugo テーマ**: PaperMod（git submodule で管理、`.gitmodules` 必須）
+- **Hugo の実行環境**: GitHub Actions のみ（ローカルには Hugo をインストールしない）
+  - ワークフローで `hugo_extended_0.147.9` を直接ダウンロードしてインストール
 - **デプロイ**: GitHub Actions → GitHub Pages（Actions ソース方式）
-- **記事フォーマット**: Markdown（`content/posts/` 以下）
+- **記事フォーマット**: Markdown（`content/posts/<記事名>/index.md`）
+- **CLAUDE.md**: `.gitignore` に追加済み（ローカルのみ、push しない）
 
-## セットアップ状況
+## セットアップ状況（完了）
 
-- [x] git init 済み（`/home/tobiuo/park/hugo`）
-- [ ] `hugo new site .` 実行（Docker 経由）
-- [ ] PaperMod テーマ追加（git submodule）
-- [ ] `hugo.toml` 設定
-- [ ] `.github/workflows/deploy.yml` 作成
-- [ ] `Makefile` 作成（Docker ラッパーコマンド）
-- [ ] `.gitignore` 作成
-- [ ] サンプル記事作成
-- [ ] GitHub リポジトリに push
-- [ ] GitHub Pages の Source を「GitHub Actions」に設定
+- [x] git init
+- [x] Hugo サイト生成（Docker 経由）
+- [x] PaperMod テーマ追加（git submodule）
+- [x] `hugo.toml` 設定
+- [x] `.github/workflows/deploy.yml` 作成
+- [x] `.gitignore` 作成
+- [x] サンプル記事作成（`content/posts/hello-world/index.md`）
+- [x] GitHub リポジトリに push
+- [x] GitHub Pages の Source を「GitHub Actions」に設定
+- [x] 公開確認済み
 
-## ローカル開発（予定）
+## 記事の書き方
 
-Hugo はホストにインストールせず、すべて Docker 経由で操作する予定。
+`content/posts/<記事名>/index.md` を作成して push するだけ。
 
-```bash
-make serve    # ローカルプレビュー (http://localhost:1313)
-make new-post NAME=my-first-post  # 新規記事作成
-make build    # 静的ファイル生成
+```markdown
++++
+date = '2026-06-16T00:00:00Z'
+draft = false
+title = '記事タイトル'
+tags = ['タグ']
++++
+
+本文をここに書く。
 ```
 
-## GitHub Actions デプロイフロー（予定）
+`draft = false` にしないと公開されない。
 
-`main` ブランチへの push をトリガーに：
-1. `actions/checkout`（submodules: true）
-2. Hugo でビルド（`--minify`）
-3. `actions/deploy-pages` で GitHub Pages へデプロイ
+## GitHub Actions デプロイフロー
+
+`main` への push をトリガーに：
+1. `actions/checkout`（submodules: true で PaperMod も取得）
+2. `hugo_extended_0.147.9` をインストール
+3. `hugo --minify` でビルド
+4. `actions/deploy-pages` で GitHub Pages へデプロイ
