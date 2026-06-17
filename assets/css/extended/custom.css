@@ -1,0 +1,64 @@
+:root {
+  --theme: #baa896;
+  --entry: #eeeeee;
+  --primary: rgb(30, 60, 80);
+  --secondary: rgb(80, 120, 145);
+  --tertiary: rgb(180, 210, 225);
+  --content: rgb(40, 60, 75);
+  --border: rgb(190, 220, 235);
+}
+
+:root[data-theme="dark"] {
+  --theme: #0d141b;
+  --entry: #1f3040;
+  --primary: rgb(210, 230, 240);
+  --secondary: rgb(140, 175, 195);
+  --tertiary: rgb(50, 75, 95);
+  --content: rgb(190, 215, 230);
+  --border: rgb(45, 70, 90);
+}
+
+/* トップ画面の背景色 */
+body.list {
+  background-color: #baa896;
+}
+
+:root[data-theme="dark"] body.list {
+  background-color: #0d141b;
+}
+
+/* トップ画面のメインエリア */
+.list > main {
+  background: #f8f1ec;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(74, 120, 150, 0.1);
+}
+
+:root[data-theme="dark"] .list > main {
+  background: #382f2d;
+}
+
+/* 記事内の背景色（ライト） */
+.post-single {
+  background: #eeeeee;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(74, 120, 150, 0.1);
+}
+
+/* 記事内の背景色（ダーク） */
+:root[data-theme="dark"] .post-single {
+  background: #1f3040;
+}
+
+/* 記事カードのホバーアニメーション */
+.entry {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(74, 120, 150, 0.08);
+}
+
+.entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(74, 120, 150, 0.15);
+}
